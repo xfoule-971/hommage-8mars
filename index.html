@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Journée des droits de la femme</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    cursor:none;
+    background:#000;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    font-family:"Playfair Display", serif;
+}
+
+/* CONTENEUR 16/9 */
+.frame-container{
+    width:80vw;
+    max-width:1400px;
+    aspect-ratio:16/9;
+    perspective:3000px;
+}
+
+/* CARTE */
+.card{
+    width:100%;
+    height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    transform-origin:center center;
+    animation:rotateCard 48s infinite linear; /* 48s tour complet */
+}
+
+@keyframes rotateCard{
+    0%{ transform:rotateY(0deg); }
+    100%{ transform:rotateY(360deg); }
+}
+
+/* FACES */
+.face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border:12px solid #d4af37;
+    box-shadow:0 0 70px rgba(212,175,55,0.7);
+    border-radius:12px;
+    overflow:hidden;
+    background:#111;
+}
+
+.front{
+    transform:rotateY(0deg);
+}
+
+.back{
+    transform:rotateY(180deg);
+}
+
+.face img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* BANDEAU NOM */
+.caption{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    background:rgba(0,0,0,0.65);
+    color:#d4af37;
+    text-align:center;
+    padding:20px 0;
+    font-size:26px;
+    letter-spacing:3px;
+}
+
+/* OVERLAY LUMIÈRE */
+.overlay{
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        rgba(255,255,255,0.05) 0%,
+        rgba(200,200,200,0.18) 50%,
+        rgba(255,255,255,0.05) 100%
+    );
+    animation:shine 18s infinite linear;
+    pointer-events:none;
+}
+
+@keyframes shine{
+    0%{ left:-100%; }
+    100%{ left:100%; }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="frame-container">
+    <div class="card">
+
+        <!-- RECTO -->
+        <div class="face front">
+            <img id="imgFront" src="">
+            <div class="overlay"></div>
+            <div class="caption" id="nomFront"></div>
+        </div>
+
+        <!-- VERSO -->
+        <div class="face back">
+            <img id="imgBack" src="">
+            <div class="overlay"></div>
+            <div class="caption" id="nomBack"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+const images = [
+    { src:"images/photo1.jpg", nom:"Solitude" },
+    { src:"images/photo2.jpg", nom:"Gerty Archimède" },
+    { src:"images/photo3.jpg", nom:"Joséphine Baker" },
+    { src:"images/photo4.jpg", nom:"Gisèle Pineau" },
+    { src:"images/photo5.jpg", nom:"Tania Saint-Val" },
+    { src:"images/photo6.jpg", nom:"Chimamanda Ngozie Adichie" },
+    { src:"images/photo7.jpg", nom:"Taraji P. Henson" },
+    { src:"images/photo8.jpg", nom:"Jocelyne Béroard" },
+    { src:"images/photo9.jpg", nom:"Whoopi Goldberg" },
+    { src:"images/photo10.jpg", nom:"Wendie Renard" },
+    { src:"images/photo11.jpg", nom:"Christine Aaron" },
+    { src:"images/photo12.jpg", nom:"Lupita Nyong'o" },
+    { src:"images/photo13.jpg", nom:"Fabienne Youyoutte" },
+    { src:"images/photo14.jpg", nom:"Aksidan" },
+    { src:"images/photo15.jpg", nom:"Angela Bassett" },
+    { src:"images/photo16.jpg", nom:"Gabrielle Louis-Carabin" },
+    { src:"images/photo17.jpg", nom:"Murielle Hurtis" },
+    { src:"images/photo18.jpg", nom:"Marie-José Pérec" },
+    { src:"images/photo19.jpg", nom:"Maryse Condé" },
+    { src:"images/photo20.jpg", nom:"Beyoncé" },
+    { src:"images/photo21.jpg", nom:"Oprah Winfrey" },
+    { src:"images/photo22.jpg", nom:"Shonda Rhimes"},
+    { src:"images/photo23.jpg", nom:"Rosa Parks"},
+    { src:"images/photo24.jpg", nom:"Aïssa Maïga"},
+    { src:"images/photo25.jpg", nom:"Patricia Girard"},
+    { src:"images/photo26.jpg", nom:"Viola Davis"},
+    { src:"images/photo27.jpg", nom:"Maya Angelou"},
+    { src:"images/photo28.jpg", nom:"Simone Veil"},
+    { src:"images/photo29.jpg", nom:"Claudia Tagbo"},
+    { src:"images/photo30.jpg", nom:"Lucette Michaux-Chevry"},
+    { src:"images/photo31.jpg", nom:"Firmine Richard"},
+    { src:"images/photo32.jpg", nom:"Angela Davis"},
+    { src:"images/photo33.jpg", nom:"Sarah-Léonie Cysique"},
+    { src:"images/photo34.jpg", nom:"johanna Danois"},
+    { src:"images/photo35.jpg", nom:"Marlène Canguio"},
+    { src:"images/photo36.jpg", nom:"Maryze Etzol"},
+    { src:"images/photo37.jpg", nom:"Michelle Obama"},
+    { src:"images/photo38.jpg", nom:"Véronique de la Cruz, Corine Coman, Clémence Botino, Indira Ampiot"},
+    { src:"images/photo39.jpg", nom:"Simone Schwarz-Bart"},
+    { src:"images/photo40.jpg", nom:"Christiane Taubira"},
+    { src:"images/photo41.jpg", nom:"Amelia Earhart"},
+    { src:"images/photo42.jpg", nom:"Simone de Beauvoir"},
+    { src:"images/photo43.jpg", nom:"Frida Kahlo"},
+    { src:"images/photo44.jpg", nom:"Cesária Évora"},
+    { src:"images/photo45.jpg", nom:"Hillary Clinton"},
+    { src:"images/photo46.jpg", nom:"Greta Thunberg"},
+    { src:"images/photo47.jpg", nom:"Angela Merkel"},
+    { src:"images/photo48.jpg", nom:"Katherine Johnson"},
+    { src:"images/photo49.jpg", nom:"Margaret Thatcher"},
+    { src:"images/photo50.jpg", nom:"Marie Curie"},
+    { src:"images/photo51.jpg", nom:"Sofia Kovalevskaïa"},
+    { src:"images/photo52.jpg", nom:"Gisèle Halimi"},
+    { src:"images/photo53.jpg", nom:"Kamala Harris"},
+    { src:"images/photo54.jpg", nom:"Séréna Williams"},
+    { src:"images/photo55.jpg", nom:"Geneviève de Fontenay"},
+    { src:"images/photo56.jpg", nom:"Indira Gandhi"},
+    { src:"images/photo57.jpg", nom:"Jane Fonda"},
+    { src:"images/photo58.jpg", nom:"Lupita Nyong'o" },
+    { src:"images/photo59.jpg", nom:"Coco Chanel" },
+    { src:"images/photo60.jpg", nom:"Lady Diana" },
+    { src:"images/photo61.jpg", nom:"Mère Térésa" },
+    { src:"images/photo62.jpg", nom:"Paulette Nardal et ses sœurs" },
+    { src:"images/photo63.jpg", nom:"Edith Piaf" },
+    { src:"images/photo64.jpg", nom:"Anne Frank" },
+    { src:"images/photo65.jpg", nom:"Colette" },
+    { src:"images/photo66.jpg", nom:"Céline Dion" },
+    { src:"images/photo67.jpg", nom:"Malala Yousafzai" },
+    { src:"images/photo68.jpg", nom:"Angelina Jolie" },
+    { src:"images/photo69.jpg", nom:"Lady Gaga" },
+    { src:"images/photo70.jpg", nom:"Jennifer Lopez" },
+    { src:"images/photo71.jpg", nom:"Whitney Houston" },
+    { src:"images/photo72.jpg", nom:"Halle Berry" },
+    { src:"images/photo73.jpg", nom:"Dalida" },
+    { src:"images/photo74.jpg", nom:"Sophie Marceau" },
+    { src:"images/photo75.jpg", nom:"Marion Cotillard" },
+    { src:"images/photo76.jpg", nom:"Virginie Efira" },
+    { src:"images/photo77.jpg", nom:"Claudie Haigneré" },
+    { src:"images/photo78.jpg", nom:"Michèle Laroque" },
+    { src:"images/photo79.jpg", nom:"Catherine Deneuve" },
+    { src:"images/photo80.jpg", nom:"Marilyn Monroe" }
+];
+
+let index = 0;
+
+const imgFront = document.getElementById("imgFront");
+const imgBack = document.getElementById("imgBack");
+const nomFront = document.getElementById("nomFront");
+const nomBack = document.getElementById("nomBack");
+
+function chargerImages(){
+    imgFront.src = images[index].src;
+    nomFront.textContent = images[index].nom;
+
+    imgBack.src = images[(index+1) % images.length].src;
+    nomBack.textContent = images[(index+1) % images.length].nom;
+}
+
+chargerImages();
+
+/* 24 secondes = 180° si rotation = 48s */
+setInterval(()=>{
+    index += 2;
+    if(index >= images.length){
+        index = 0;
+    }
+    chargerImages();
+}, 24000);
+
+</script>
+
+</body>
+</html>
